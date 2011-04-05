@@ -21,9 +21,6 @@ THE SOFTWARE.
 '''
 
 class Heap(object):
-
-    NONE = -1
-    
     def __init__(self, data):
         self.data = data
         for i in xrange(len(data)/2, -1, -1):
@@ -53,3 +50,23 @@ class Heap(object):
         
             self.__max_heapify__(largest)
 
+    def extract_max(self):
+        n = len(self.data)
+
+        max_element = self.data[0]
+
+        self.data[0] = self.data[n - 1]
+        self.data = self.data[:n - 1]
+
+        self.__max_heapify__(0)
+
+        return max_element
+
+def heapsort(buf):
+    heap = Heap(buf)
+    
+    ret = []
+    for i in xrange(len(buf)):
+        ret.insert(0, heap.extract_max())
+
+    return ret
