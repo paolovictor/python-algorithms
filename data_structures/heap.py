@@ -33,7 +33,7 @@ class Heap(object):
         return (i << 1) + 1
 
     def right_child(self, i):
-        return (i << 1) + 2 # +2 instead of +1 because it's 0-indexed
+        return (i << 1) + 2 # +2 instead of +1 because it's 0-indexed.
  
     def __max_heapify__(self, i):
         largest = i
@@ -47,7 +47,7 @@ class Heap(object):
 
         if i != largest:
             self.data[i], self.data[largest] = self.data[largest], self.data[i]
-        
+
             self.__max_heapify__(largest)
 
     def extract_max(self):
