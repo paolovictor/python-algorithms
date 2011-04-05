@@ -29,6 +29,7 @@ class BSTNode(object):
         self.value = value
         self.left = None
         self.right = None
+        self.parent = None
 
     def search(self, value):
         if self.value == value:
@@ -55,11 +56,13 @@ class BSTNode(object):
         if value < self.value:
             if not self.left:
                 self.left = BSTNode(value)
+                self.left.parent = self
             else:
                 self.left.insert(value)
         elif value > self.value:
             if not self.right:
                 self.right = BSTNode(value)
+                self.right.parent = self
             else:
                 self.right.insert(value)
         else:
@@ -69,28 +72,17 @@ class BSTNode(object):
         # Base case: root node
         if self.value == value:
             self.__delete_node__()
-            return
+        elif value < self.value and self.left is not None:
+            self.left.delete(value)
+        elif self.right is not None:
+            self.right.delete(value)
 
-        if value < self.value:
-            if self.left is not None:
-               if self.left.value == value:
-                   self.left.__delete_node__(self)
-               else:
-                   self.left.delete(value)
-        else:
-            if self.right is not None:
-                if self.right.value == value:
-                    self.right.__delete_node__(self)
-                else:
-                    self.right.delete(value)
-
-    def __delete_node__(self, parent = None):
+    def __delete_node__(self):
         '''
         Removes the node from its tree, updating its children node pointers, if any.
 
         @param parent the node's parent
         '''
-        #print self.value, self.left, self.right
         if self.right and self.left:
             # Node has two children Replace value with successor s and delete s
             if self.right:
@@ -105,15 +97,18 @@ class BSTNode(object):
 
             self.left = child.left
             self.right = child.right
+
+            if self.left : self.left.parent = self
+            if self.right : self.right.parent = self
         else:
             # None has no children, erase value and update parent
             self.value = None
 
-            if parent:
-                if self is parent.left:
-                    parent.left = None
+            if self.parent:
+                if self is self.parent.left:
+                    self.parent.left = None
                 else:
-                    parent.right = None
+                    self.parent.right = None
 
     def successor(self):
         s = None
