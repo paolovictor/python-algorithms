@@ -130,5 +130,55 @@ class BSTNode(object):
 
         return s
 
+    def rotate_right(self):
+        '''
+              Q            P
+             / \          / \
+            P   C   ==>  A   Q
+           / \              / \
+          A   B            B   C
+        '''
+        # If you do not understand at first, note that instead of
+        # moving Q to C's position, I move P instead. So think on
+        # terms of "P will be future Q"
+        Q, P = self, self.left
+ 
+        if not P: return
+      
+        Q.left = P.left
+        P.left = P.right
+        P.right = Q.right
+        Q.right = P
+        
+        P.right.parent = P
+        Q.left.parent = Q
+
+        P.value, Q.value = Q.value, P.value
+
+    def rotate_left(self):
+        '''
+              Q             P
+             / \           / \
+            C   P   ==>   Q   B
+               / \       / \
+              A   B     C   A
+        '''
+        # If you do not understand at first, note that instead of
+        # moving Q to C's position, I move P instead. So think on
+        # terms of "P will be future Q"
+        Q, P = self, self.right
+ 
+        if not P: return
+      
+        Q.right = P.right
+        P.right = P.left
+        P.left = Q.left
+        Q.left = P
+        
+        P.left.parent = P
+        Q.right.parent = Q
+
+        P.value, Q.value = Q.value, P.value
+
     def __str__(self):
         return "(%s, l: %s, r: %s)" % (self.value, self.left is not None and self.left.value or 'N', self.right is not None and self.right.value or 'N')
