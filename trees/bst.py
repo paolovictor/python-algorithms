@@ -41,8 +41,11 @@ class BSTNode(object):
             return self.right.search(value)
 
         return None
-
+    
     def insert(self, value):
+        self.insert_node(BSTNode(value))
+
+    def insert_node(self, node):
         '''
         Inserts a value to the tree with self as root
         
@@ -50,21 +53,21 @@ class BSTNode(object):
         '''
         # Base case: empty root node
         if self.value is None:
-            self.value = value
+            self.value = node.value
             return
 
-        if value < self.value:
+        if node.value < self.value:
             if not self.left:
-                self.left = BSTNode(value)
+                self.left = node
                 self.left.parent = self
             else:
-                self.left.insert(value)
-        elif value > self.value:
+                self.left.insert_node(node)
+        elif node.value > self.value:
             if not self.right:
-                self.right = BSTNode(value)
+                self.right = node
                 self.right.parent = self
             else:
-                self.right.insert(value)
+                self.right.insert_node(node)
         else:
             pass # Duplicate values are ignored
 
@@ -150,8 +153,8 @@ class BSTNode(object):
         P.right = Q.right
         Q.right = P
         
-        P.right.parent = P
-        Q.left.parent = Q
+        if P.right: P.right.parent = P
+        if Q.left: Q.left.parent = Q
 
         P.value, Q.value = Q.value, P.value
 
@@ -175,8 +178,8 @@ class BSTNode(object):
         P.left = Q.left
         Q.left = P
         
-        P.left.parent = P
-        Q.right.parent = Q
+        if P.left: P.left.parent = P
+        if Q.right: Q.right.parent = Q
 
         P.value, Q.value = Q.value, P.value
 

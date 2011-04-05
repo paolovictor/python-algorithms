@@ -282,9 +282,58 @@ class BSTTestCase(unittest.TestCase):
         assert node.right.left.value == 9
         assert node.right.right.value == 11
 
+        assert node.parent is None
+        assert node.left.parent is node
+        assert node.right.parent is node
+        assert node.right.left.parent is node.right
+        assert node.right.right.parent is node.right
+
         # All nodes still are reachable
         for i in range(7, 11):
             assert node.search(i) is not None and node.search(i).value == i
+
+    def testRotateRightSingleChild(self):
+        node = BSTNode(10)
+        node.insert(8)
+
+        '''
+              10      8
+             /         \
+            8     ==>   10
+        '''
+
+        node.rotate_right()
+
+        assert node.left is None
+
+        assert node.value == 8
+        assert node.right.value == 10
+        
+        assert node.right.parent == node
+
+    def testRotateRightTwoChildren(self):
+        node = BSTNode(10)
+        node.insert(8)
+        node.insert(11)
+
+        '''
+              10         8
+             /  \         \
+            8    11 ==>   10
+                            \
+                             11
+        '''
+
+        node.rotate_right()
+
+        assert node.left is None
+
+        assert node.value == 8
+        assert node.right.value == 10
+        assert node.right.right.value == 11
+        
+        assert node.right.parent is node
+        assert node.right.right.parent is node.right
 
     def testRotateLeft(self):
         node = BSTNode(9)
@@ -320,6 +369,12 @@ class BSTTestCase(unittest.TestCase):
         assert node.left.left.value == 8
         assert node.left.right.value == 10
         assert node.right.value == 12
+        
+        assert node.parent is None
+        assert node.right.parent is node
+        assert node.left.parent is node
+        assert node.left.left.parent is node.left
+        assert node.left.right.parent is node.left
 
         # All nodes still are reachable
         for i in range(8, 12):
