@@ -247,5 +247,83 @@ class BSTTestCase(unittest.TestCase):
         for i in range(7, 13):
             assert node.search(i) is None
 
+    def testRotateRight(self):
+        node = BSTNode(10)
+        node.insert(8)
+        node.insert(7)
+        node.insert(9)
+        node.insert(11)
+        '''
+              10             8
+             /  \           /  \
+            8    11   ==>  7    10
+           / \                 /  \
+          7   9               9    11
+        '''
+
+        assert node.value == 10
+        assert node.left.value == 8
+        assert node.left.left.value == 7
+        assert node.left.right.value == 9
+        assert node.right.value == 11
+
+        # All nodes are reachable
+        for i in range(7, 11):
+            assert node.search(i) is not None and node.search(i).value == i
+
+        node.rotate_right()
+
+        assert node.left.left is None
+        assert node.left.right is None
+
+        assert node.value == 8
+        assert node.left.value == 7
+        assert node.right.value == 10
+        assert node.right.left.value == 9
+        assert node.right.right.value == 11
+
+        # All nodes still are reachable
+        for i in range(7, 11):
+            assert node.search(i) is not None and node.search(i).value == i
+
+    def testRotateLeft(self):
+        node = BSTNode(9)
+        node.insert(8)
+        node.insert(11)
+        node.insert(10)
+        node.insert(12)
+        '''
+              9             11
+             / \           /  \
+            8   11   ==>  9    12
+               /  \      / \       
+              10  12    8   10
+        '''
+
+        assert node.value == 9
+        assert node.left.value == 8
+        assert node.right.value == 11
+        assert node.right.left.value == 10
+        assert node.right.right.value == 12
+
+        # All nodes are reachable
+        for i in range(8, 12):
+            assert node.search(i) is not None and node.search(i).value == i
+
+        node.rotate_left()
+
+        assert node.right.left is None
+        assert node.right.right is None
+
+        assert node.value == 11
+        assert node.left.value == 9
+        assert node.left.left.value == 8
+        assert node.left.right.value == 10
+        assert node.right.value == 12
+
+        # All nodes still are reachable
+        for i in range(8, 12):
+            assert node.search(i) is not None and node.search(i).value == i
+
 if __name__ == '__main__':
     unittest.main()
