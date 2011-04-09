@@ -20,6 +20,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 
+def k_permutation_generator(l, k, start = 0, n = 0, used = None):
+    '''
+    Returns a generator for all the k-permutations of the elements from the list l
+
+    Example: k_permutation_generator([1, 2, 3], 2) yields:
+
+     [[1, 2], [1, 3], [2, 1], [2, 3], [3, 2], [3, 1]]
+    '''
+    if not used : used = [] # Python gotcha!
+
+    if n == k:
+        yield used
+        return
+
+    for i in xrange(start, len(l)):
+        l[start], l[i] = l[i], l[start]
+       
+        used.append(l[start])
+ 
+        for perm in k_permutation_generator(l, k, start + 1, n + 1, used):
+            yield perm
+
+        used.remove(l[start])
+
+        l[start], l[i] = l[i], l[start]
+
+for k in k_permutation_generator([1,2,3], 2):
+    print k
+
 def permutation_generator(l, start = 0):
     '''
     Returns a generator that yields all the permutations of the elements from the list l
