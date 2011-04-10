@@ -46,9 +46,6 @@ def k_permutation_generator(l, k, start = 0, n = 0, used = None):
 
         l[start], l[i] = l[i], l[start]
 
-for k in k_permutation_generator([1,2,3], 2):
-    print k
-
 def permutation_generator(l, start = 0):
     '''
     Returns a generator that yields all the permutations of the elements from the list l
@@ -105,3 +102,36 @@ def __permutations__(l, res, start = 0):
         __permutations__(l, res, start + 1)
 
         l[start], l[i] = l[i], l[start]
+
+def __jt_move__(x, a, p, d):
+    w = a[p[x] + d[x]]
+    a[p[x] + d[x]] = x
+    a[p[x]] = w
+    p[w] = p[x]
+    p[x] = p[x] + d[x]
+
+def __jt_nest__(a, d, p, k):
+    if k < len(a):
+        for i in xrange(0, k + 1):
+            for r in __jt_nest__(a, d, p, k + 1):
+                yield r
+
+            if i < k:
+                __jt_move__(k, a, p, d)
+                yield a[:]
+
+        d[k] = -d[k] 
+
+def permutations_jt(n):
+    '''
+    Generates all the permutations of l using the johnson trotter algorithm
+    (recursive version)
+    '''
+    p = range(n)
+    a = range(n)
+    d = [-1 for i in p]
+
+    yield range(n)
+
+    for result in __jt_nest__(a, d, p, 1):
+        yield result
