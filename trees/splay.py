@@ -49,8 +49,9 @@ class SplayTreeNode(BSTNode):
         
         # replace left subtree root with root
         node.value = node.left.value
-        node.right = node.left.right
         node.left = node.left.left
+        # You don't have to replace the right child pointer: the sucessor  
+        # has no right child
 
         if node.left: node.left.parent = node
         if node.right: node.right.parent = node

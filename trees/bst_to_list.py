@@ -24,20 +24,24 @@ def __bst_to_list__(root):
     if not root: 
         return
 
-    if root.left:
-        __bst_to_list__(root.left)
-        r = root.predecessor()
-        if r: r.right = root
+    __bst_to_list__(root.left)
+    __bst_to_list__(root.right)
 
-    if root.right:
-        __bst_to_list__(root.right)
-        r = root.successor()
-        root.right = r
+    root.left = root.predecessor()
+    if root.left: root.left.right = root
+
+    root.right = root.successor()
+    if root.right: root.right.left = root
+
 
 def bst_to_list(root):
     '''
     Converts the BST with the given root node to a doubly
     linked list, on which left -> previous and right -> next
+
+    It's actually arguable if it's really O(1) in memory, since
+    you can't really ignore the function stack pointers.
+    I've got to try an iterative implementation. 
     '''
     # Finding the start of the list
     s = root
@@ -46,13 +50,4 @@ def bst_to_list(root):
 
     __bst_to_list__(root)
 
-    # Fixing the "previous" pointers
-    # TODO: That's a bit of a hack. I'll review the
-    #       the code to be absolutely sure this is necessary.
-    #       'til then, revel on the hackery!
-    s1, s2 = s, s.right
-    while s2:
-        s2.left = s1
-        s1, s2 = s2, s2.right
-        
     return s
