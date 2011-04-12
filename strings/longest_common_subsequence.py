@@ -20,10 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 '''
 
-# Longest common subsequency
+# Longest common subsequence
 # http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
-def lcs(str_a, str_b):
+def longest_common_subsequence(str_a, str_b):
     m = [[0 for i in range(len(str_b) + 1)] for k in range(len(str_a) + 1)]
 
     for y in range(1, len(str_a) + 1):
@@ -33,9 +33,7 @@ def lcs(str_a, str_b):
             else:
                 m[y][x] = max(m[y - 1][x], m[y][x - 1])
    
-    print reconstruct_lcs(m, str_a, str_b)
- 
-    return m[len(str_a)][len(str_b)]
+    return m[len(str_a)][len(str_b)], reconstruct_lcs(m, str_a, str_b)
 
 # Actually, this one shows only ONE LCS! There may be multiple ones!
 def reconstruct_lcs(m, str_a, str_b):
@@ -58,5 +56,5 @@ def reconstruct_lcs(m, str_a, str_b):
     return s
 
 if __name__ == '__main__':
-    print lcs('a brand new option in orange juice', 'abc')
-    print lcs('GACT', 'GCTA')
+    print longest_common_subsequence('a brand new option in orange juice', 'abc')
+    print longest_common_subsequence('GACT', 'GCTA')
