@@ -58,7 +58,7 @@ class HeapTest(unittest.TestCase):
         sorted_data = heapsort([random.randint(0, 1024) for i in range(256)])
         assert __is_sorted__(sorted_data), "The data is not sorted!"
 
-# TODO: This should be moved to a test utilities module
+# TODO: This should be moved to a test utilities module.
 def __is_sorted__(data):
     for i in range(1, len(data)):
         if data[i] < data[i-1]:
