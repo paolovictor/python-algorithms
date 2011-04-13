@@ -50,3 +50,39 @@ def unbounded_knapsack(W, v, w):
                 m[i] = m[i - w[k]] + vk
 
     return m[W]
+
+def zero_one_knapsack(W, v, w):
+    '''
+    0-1 knapsack algorithm. The problem definition is:
+
+    "Can a value of at least V be achieved without excedding
+     a weight W?"
+
+    On this case, you can only choose 0 or 1 items of the same type
+
+    This algorithm returns the maximum value that can be achieved
+    by without exceeding a weight W.
+
+    @param W the maximum weight
+    @param v the object values
+    @param w the object weights
+    '''
+    m = [[0 for k in range(W + 1)] for i in range(len(w) + 1)]
+
+    for i in range(len(v)):
+        m[i][0] = 0
+
+    for i in range(W + 1):
+        m[0][i] = 0
+
+    start = min(w)
+    for item in range(1, len(v) + 1):
+        for max_w in xrange(start, W + 1):
+            w_i = w[item - 1]
+
+            if w_i > max_w:
+                m[item][max_w] = m[item - 1][max_w]
+            else:
+                m[item][max_w] = max(m[item - 1][max_w], m[item - 1][max_w - w_i] + w_i)
+
+    return m[len(v)][W]
