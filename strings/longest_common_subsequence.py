@@ -24,12 +24,17 @@ THE SOFTWARE.
 # http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
 def longest_common_subsequence(str_a, str_b):
+    # Creates a |str_a| + 1 x |str_b| + 1 matrix with zeroes
     m = [[0 for i in range(len(str_b) + 1)] for k in range(len(str_a) + 1)]
 
     for y in range(1, len(str_a) + 1):
         for x in range(1, len(str_b) + 1):
+            # Is the same char? Then add one to the latest
+            # maximum without the cars
             if str_a[y - 1] == str_b[x - 1]:
                 m[y][x] = m[y - 1][x - 1] + 1
+            # Else, the maximum is the maximum of choosing one char
+            # from str_a and choosing one char of str_b
             else:
                 m[y][x] = max(m[y - 1][x], m[y][x - 1])
    

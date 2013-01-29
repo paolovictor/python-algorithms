@@ -25,6 +25,8 @@ THE SOFTWARE.
 def levenshtein_distance(str_a, str_b):
     m = [[0 for i in range(len(str_b) + 1)] for k in range(len(str_a) + 1)]
 
+    # The first row and collum represent going from an empty string
+    # to the target string, only i additions are needed
     for y in range(1, len(str_a) + 1):
         m[y][0] = y
 
