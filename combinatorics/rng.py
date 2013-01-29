@@ -9,9 +9,8 @@ def random_7_from_random_5():
 
         if r >= 3:
             outcome |= (1 << n)
-            n += 1
-        elif r < 3:
-            n += 1
+
+        n += 1
 
     return outcome
 
